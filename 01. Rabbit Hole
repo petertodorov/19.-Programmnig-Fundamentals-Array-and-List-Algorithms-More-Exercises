@@ -1,0 +1,69 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+class RabbitHole
+{
+    static void Main(string[] args)
+    {
+        List<string> comands = Console.ReadLine().Split(' ').ToList();
+        int energy = int.Parse(Console.ReadLine());
+        int currentIndex = 0;
+        bool lastBomb = false;
+        while (energy > 0)
+        {
+            string[] comandsParams = comands[currentIndex].Split('|').ToArray();
+            string direction = comandsParams[0];
+            lastBomb = false;
+            if (direction == "RabbitHole")
+            {
+                Console.WriteLine("You have 5 years to save Kennedy!");
+                break;
+            }
+            int position = int.Parse(comandsParams[1]);
+
+            switch (direction)
+            {
+                case "Left":
+                    currentIndex = Math.Abs(currentIndex - position) % comands.Count;
+                    energy -= position;
+                    if (currentIndex < 0)
+                    {
+                        currentIndex = 0;
+                    }
+                    energy -= position;
+                    break;
+                case "Right":
+                    currentIndex = (currentIndex + position) % comands.Count;
+                    energy -= position;
+                    break;
+                case "Bomb":
+                    comands.RemoveAt(currentIndex);
+                    energy -= position;
+                    currentIndex = 0;
+                    lastBomb = true;
+
+                    break;
+            }
+            if (comands[comands.Count - 1] == "RabbitHole")
+            {
+                comands.Insert(comands.Count, "Bomb|" + energy);
+            }
+            else
+            {
+                comands.RemoveAt(comands.Count - 1);
+                comands.Insert(comands.Count, "Bomb|" + energy);
+            }
+        }
+        if (energy <= 0 && lastBomb)
+        {
+            Console.WriteLine("You are dead due to bomb explosion!");
+
+        }
+        else if (energy <= 0)
+        {
+            Console.WriteLine("You are tired. You can't continue the mission.");
+        }
+    }
+}
