@@ -1,0 +1,70 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+public class IncreasingCrisis
+{
+    public static void Main()
+    {
+        int n = int.Parse(Console.ReadLine());
+        List<int> numbers = new List<int>();
+        
+        for (int i = 0; i < n; i++)
+        {
+            InstertNumbers(numbers);
+            RemoveNumbers(numbers);
+        }
+        Console.WriteLine(String.Join(" ", numbers));
+    }
+
+    private static void InstertNumbers(List<int> numbers)
+    {
+        int[] inputLines = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+        bool empty = numbers.Count == 0 || numbers[numbers.Count - 1] <= inputLines.First();
+        if (empty)
+        {
+            for (int j = 0; j < inputLines.Length; j++)
+            {
+                numbers.Add(inputLines[j]);
+            }
+        }
+        else
+        {
+            int start = 0;
+            for (int x = 0; x < numbers.Count; x++)
+            {
+                if (numbers[x] > inputLines[0])
+                {
+                    start = x;
+                    break;
+                }
+            }
+            int end = start + inputLines.Count();
+            int count = 0;
+            for (int position = start; position < end; position++)
+            {
+                numbers.Insert(position, inputLines[count]);
+                count++;
+                if (numbers[position] > numbers[position + 1])
+                {
+                    break;
+                }
+            }
+        }
+    }
+
+    private static void RemoveNumbers(List<int> numbers)
+    {
+        for (int z = 0; z < numbers.Count - 1; z++)
+        {
+            if (numbers[z] > numbers[z + 1])
+            {
+                for (int removed = z + 1; removed < numbers.Count; removed++)
+                {
+                    numbers.RemoveAt(removed);
+                    removed--;
+                }
+            }
+        }
+    }
+}
+
