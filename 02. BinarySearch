@@ -1,0 +1,65 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+class BinarSearch
+{
+    static void Main(string[] args)
+    {
+        List<int> input = Console.ReadLine().Split(' ').Select(int.Parse).ToList();
+        int number = int.Parse(Console.ReadLine());
+        int counterLinear = LinearSearch(input,number);
+        int counterBinary = SearchBinary(input, number);
+        if (input.Contains(number))
+        {
+            Console.WriteLine("Yes");
+        }
+        else
+        {
+            Console.WriteLine("No");
+        }
+        Console.WriteLine($"Linear search made {counterLinear} iterations");
+        Console.WriteLine($"Binary search made {counterBinary} iterations");
+    }
+
+    private static int SearchBinary(List<int> input, int number)
+    {
+        int counter = 0;
+        input = input.OrderBy(a => a).Distinct().ToList();
+        int first = 0;
+        int last = input.Count-1;
+        while (first<=last)
+        {
+            counter++;
+            int middle = first + (last - first) / 2;
+            if (input[middle]<number)
+            {
+                first= middle +1;
+            }
+            if(input[middle] > number)
+            {
+                last= middle - 1;
+            }
+            if (input[middle]== number)
+            {
+                break;
+            }
+        }
+        return counter;
+    }
+
+    private static int LinearSearch(List<int> input, int number)
+    {
+        int counter = 0;
+        for (int i = 0; i < input.Count; i++)
+        {
+            counter++;
+            if (input[i]==number)
+            {
+                break;
+            }
+        }
+        return counter;
+    }
+}
