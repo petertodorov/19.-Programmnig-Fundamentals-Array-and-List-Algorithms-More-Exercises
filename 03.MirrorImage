@@ -1,0 +1,39 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+class MirrorImage
+{
+    static void Main(string[] args)
+    {
+        List<string> input = Console.ReadLine().Split(' ').ToList();
+        string reverser = Console.ReadLine();
+        List<string> leftPart = new List<string>();
+        List<string> rightPart = new List<string>();
+        int index = new int();
+        string toInsert = string.Empty;
+        while (reverser != "Print")
+        {
+           index=int.Parse(reverser);
+            toInsert = input[index];
+           
+            for (int i = 0; i < index; i++)
+            {
+                leftPart.Add(input[i]);
+            }
+            for (int i = index+1; i < input.Count; i++)
+            {
+                rightPart.Add(input[i]);
+            }
+            leftPart.Reverse();
+            rightPart.Reverse();
+            leftPart.Add(toInsert);
+            input = leftPart.Concat(rightPart).ToList();
+            reverser = Console.ReadLine();
+            leftPart = new List<string>();
+            rightPart = new List<string>();
+        }
+        Console.WriteLine(string.Join(" ",input));
+    }
+}
